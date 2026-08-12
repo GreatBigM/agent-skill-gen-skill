@@ -2,6 +2,11 @@
 
 本文件记录版本历史。版本号定义在 SKILL.md frontmatter 的 `version` 字段（单一真相源）。
 
+## 1.5.0 (2026-08-12)
+
+### Added（description 字数约束）
+- **文件间约束 #10：description ≤ 100 字**——frontmatter description 一句话说清「这是什么 skill + 干什么用」；细节进正文/triggers，不进 description（市场卡片展示规格 + 技能索引 57 字符截断后仍可读；2026-08-12 市场卡片规格沉淀，7 仓已全部达标）
+
 ## 1.4.0 (2026-08-03)
 
 ### Changed（SKILL 设计三原则 + 首次对外发布快照）

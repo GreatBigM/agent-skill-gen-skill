@@ -1,7 +1,7 @@
 ---
 name: hermes-skill-gen
 description: 生成新 skill 前加载，按构成规范设计文件层级与文件约束。
-version: 1.4.0
+version: 1.5.0
 author: Hermes Agent
 license: MIT
 category: autonomous-ai-agents
@@ -72,6 +72,7 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 7. **命名**：name 动词-名词；选词查占用（词义契合 + 是否被其他用途占用 + 历史延续）；概念词按可变性分工——SCHEMA=不可更改的（宪法/蓝图），SPEC=可更改的（工程约束/当前规格），不混用
 8. **AI 使用哲学头节必填**：SKILL.md 顶部声明「用户指挥 AI，AI 替用户执行」+ 铁律 + AI 交互约定
 9. **references = 参考层（A 模式）**：坑 + 决策原因全量进 references，SKILL.md 不承载；调试笔记/单次分析不发布（项目特定、敏感重灾区）；references 引用要清理（保知识去链接）
+10. **description ≤ 100 字**：frontmatter description 一句话说清「这是什么 skill + 干什么用」（≤100 字，市场卡片展示规格 + 技能索引 57 字符截断后仍可读）；细节进正文/triggers，不进 description（2026-08-12 市场卡片规格沉淀）
 
 ## 生成流程
 
