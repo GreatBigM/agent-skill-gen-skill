@@ -1,6 +1,6 @@
 ---
 name: hermes-skill-gen
-description: 生成新 skill 前加载，按构成规范设计文件层级与文件约束。
+description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
 version: 1.5.0
 author: Hermes Agent
 license: MIT
