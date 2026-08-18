@@ -1,17 +1,17 @@
 ---
-name: hermes-skill-gen
+name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.5.0
-author: Hermes Agent
+version: 1.6.0
+author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
 metadata:
-  hermes:
-    tags: [hermes, skills, generation, architecture]
+  agent:
+    tags: [agent, skills, generation, architecture]
     triggers: [生成skill, skill构成, skill架构, 新建skill]
 ---
 
-# SKILL 生成构成规范（hermes-skill-gen）
+# SKILL 生成构成规范（agent-skill-gen）
 
 ## ⚡ 使用方式（AI 替你完成）
 
@@ -63,7 +63,7 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 
 ## 文件间约束
 
-1. **SKILL.md 唯一入口**：所有支持文件必须被它反引号引用（否则 hermes skills install 漏装）
+1. **SKILL.md 唯一入口**：所有支持文件必须被它反引号引用（否则部分 agent 的 skills install 漏装）
 2. **支持文件清单 = 单一真相源**：SKILL.md 末尾清单列出全部支持文件，`_referenced_support_paths` 校验无缺失无多余
 3. **version 单一真相源**：SKILL.md frontmatter，CHANGELOG/install.sh 都读它
 4. **概念单一真相源**：一个概念一个文件定义，其余引用——禁止两处定义
@@ -111,10 +111,10 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 - **set -e 下条件 append 必须 if 不能 `[ ] &&`**：短路返回非零直接退出
 - 多技能 `SKILLS=(...)` 数组 + 单技能参数：`curl ... | bash -s -- <skill>`（`-s` 会被 bash 当选项吃掉，管道才是对的）
 - 安装源 gitee 主推 + GitHub 镜像；gitee 推送必须 SSH（HTTPS 无凭证 fatal）
-- 隔离 HOME 实测：安装 + 幂等备份 + `hermes skills list` 识别 + 版本升级路径（造旧版模拟）
+- 隔离 HOME 实测：安装 + 幂等备份 + `<agent> skills list` 识别 + 版本升级路径（造旧版模拟）
 
 ## 相关
 
-- `hermes-skill-review` — 审查环节（构成审查 + 发布前审查）
+- `agent-skill-review` — 审查环节（构成审查 + 发布前审查）
 
 > 框架：生成（本技能）→ 审查 → 发布（三环节技能各自独立分发，按需获取）

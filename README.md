@@ -1,22 +1,22 @@
-# hermes-skill-gen-skill
+# agent-skill-gen-skill
 
-Hermes Agent 技能生成构成规范（skill）—— 新 skill 的三件事分层、文件层级、参考分层（A 模式）、生成流程与打包整理规范。
+Agent 技能生成构成规范（skill）—— 新 skill 的三件事分层、文件层级、参考分层（A 模式）、生成流程与打包整理规范。
 
 生成新技能前加载本技能，AI 按构成规范设计文件层级与文件约束，收敛决策（能合并不新建），产出符合规范的 skill。仓库根目录即 skill 本体，用一键脚本或手动复制安装。
 
 ## 安装
 
-本 skill 支持多 agent 目标：Hermes / Claude Code / Codex。安装脚本自动探测本机已安装的 agent，让用户选择安装目标。
+本 skill 支持多 agent 目标：Hermes / Claude Code / Codex / ZCode。安装脚本自动探测本机已安装的 agent，让用户选择安装目标。
 
 ```bash
 # 方式 1：交互选择安装目标（推荐，先下载再执行以保留交互）
-curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
+curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
 
-# 方式 2：指定目标（非交互）
-curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude
+# 方式 2：指定目标（非交互，含 ZCode）
+curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude,zcode
 
 # 方式 3：安装到全部检测到的 agent
-curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh | bash -s -- --all
+curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --all
 ```
 
 > 脚本等价于手动复制（clone + cp），不经过安全扫描，可先审阅脚本内容再执行。
@@ -24,18 +24,19 @@ curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.s
 
 ## 安装（备选：手动复制）
 
-> ⚠️ 注意：`hermes skills install`（tap/URL 方式）对 hermes-skill-gen 可能触发安全扫描拦截（
+> ⚠️ 注意：部分 agent 的 `skills install`（tap/URL 方式）对 agent-skill-gen 可能触发安全扫描拦截（
 > 技能涉及「管理其他 skill 构成/脱敏」类命令），community 来源 + dangerous 判定不可用 --force 绕过。
 > **推荐使用一键脚本或手动复制安装，不经过扫描。**
 
 ```bash
 # 1. 克隆本仓库
-git clone https://gitee.com/GreatBigM/hermes-skill-gen-skill.git
+git clone https://gitee.com/GreatBigM/agent-skill-gen-skill.git
 
-# 2. 复制到 Hermes 的 skills 目录（不经过安全扫描）
-mkdir -p ~/.hermes/skills/hermes-skill-gen
-cp hermes-skill-gen-skill/SKILL.md ~/.hermes/skills/hermes-skill-gen/
-cp -r hermes-skill-gen-skill/templates ~/.hermes/skills/hermes-skill-gen/
+# 2. 复制到对应 agent 的 skills 目录（不经过安全扫描）
+mkdir -p ~/.hermes/skills/agent-skill-gen
+cp agent-skill-gen-skill/SKILL.md ~/.hermes/skills/agent-skill-gen/
+cp -r agent-skill-gen-skill/templates ~/.hermes/skills/agent-skill-gen/
+# ZCode: cp -r 到 ~/.zcode/skills/agent-skill-gen/
 
 # 3. 会话内 /reload-skills，或新开会话自动加载
 ```
@@ -67,7 +68,7 @@ cp -r hermes-skill-gen-skill/templates ~/.hermes/skills/hermes-skill-gen/
 ## 仓库结构
 
 ```
-hermes-skill-gen-skill/
+agent-skill-gen-skill/
 ├── README.md                        ← 本文件
 ├── install.sh                       ← 一键安装脚本
 ├── SKILL.md                         ← 操作手册（触发条件/文件层级/生成流程，仓库根即 skill）

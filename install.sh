@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# hermes-skill-gen 一键安装/更新脚本（多 agent 目标）
+# agent-skill-gen 一键安装/更新脚本（多 agent 目标）
 # 用法:
-#   交互选择: curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
-#   指定目标: curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude
-#   全部目标: curl -fsSL https://gitee.com/GreatBigM/hermes-skill-gen-skill/raw/main/install.sh | bash -s -- --all
+#   交互选择: curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
+#   指定目标: curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude,zcode
+#   全部目标: curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --all
 # 等价于手动复制，不经过安全扫描。重复执行 = 更新（自动备份旧版 + 版本对比）
-# 镜像: github.com/GreatBigM/hermes-skill-gen-skill（海外备选）
+# 镜像: github.com/GreatBigM/agent-skill-gen-skill（海外备选）
 set -euo pipefail
 
-REPO_URL="https://gitee.com/GreatBigM/hermes-skill-gen-skill.git"
-SKILL_NAME="hermes-skill-gen"
+REPO_URL="https://gitee.com/GreatBigM/agent-skill-gen-skill.git"
+SKILL_NAME="agent-skill-gen"
 COPY_DIRS="templates"   # 除 SKILL.md/CHANGELOG.md 外需拷贝的目录
 
 get_version() { grep -m1 '^version:' "$1" 2>/dev/null | sed 's/^version:[[:space:]]*//' | tr -d '"'\'' ' || true; }
@@ -32,6 +32,7 @@ detect_targets() {
     if [ -x "$(command -v hermes 2>/dev/null)" ]; then TARGETS+=("hermes|${HOME}/.hermes/skills|Hermes"); fi
     if [ -x "$(command -v claude 2>/dev/null)" ]; then TARGETS+=("claude|${HOME}/.claude/skills|Claude Code"); fi
     if [ -x "$(command -v codex 2>/dev/null)" ]; then TARGETS+=("codex|${HOME}/.codex/skills|Codex"); fi
+    if [ -d "${HOME}/.zcode" ]; then TARGETS+=("zcode|${HOME}/.zcode/skills|ZCode"); fi
     # Cursor 用 skills-cursor 插件结构，暂不支持；其余 agent 未探测到
     if [ "${#TARGETS[@]}" -eq 0 ]; then
         TARGETS+=("hermes|${HOME}/.hermes/skills|Hermes(默认)")
@@ -109,7 +110,7 @@ elif [ -n "$TARGET_ARG" ]; then
             [ "${t%%|*}" = "$w" ] && SELECTED+=("$t")
         done
     done
-    [ "${#SELECTED[@]}" -eq 0 ] && { echo "❌ 未知目标: $TARGET_ARG（可用: hermes/claude/codex）"; exit 1; }
+    [ "${#SELECTED[@]}" -eq 0 ] && { echo "❌ 未知目标: $TARGET_ARG（可用: hermes/claude/codex/zcode）"; exit 1; }
 elif [ -t 0 ]; then
     # 交互模式（stdin 是终端）
     echo ""
@@ -149,8 +150,8 @@ done
 echo ""
 echo "✅ ${SKILL_NAME} v${NEW_VERSION} 安装完成！"
 echo "   - Hermes: 新会话自动加载，当前会话 /reload-skills 生效"
-echo "   - Claude Code / Codex: 新会话自动加载"
+echo "   - Claude Code / Codex / ZCode: 新会话自动加载"
 echo ""
 echo "快速开始：生成新 skill 前加载本技能，按构成规范设计文件层级与文件约束"
 echo "更新：重跑本脚本即升级（自动备份旧版到 .bak.<时间戳>）"
-echo "指定目标：bash install.sh --target hermes,claude  或  --all"
+echo "指定目标：bash install.sh --target hermes,claude,zcode  或  --all"
