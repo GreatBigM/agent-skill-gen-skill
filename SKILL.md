@@ -1,7 +1,7 @@
 ---
 name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.6.0
+version: 1.6.1
 author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
