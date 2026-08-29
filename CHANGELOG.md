@@ -2,6 +2,14 @@
 
 本文件记录版本历史。版本号定义在 SKILL.md frontmatter 的 `version` 字段（单一真相源）。
 
+## 1.6.2 (2026-08-29)
+
+### Changed（skill 归属于 agent，无终端直连通道）
+
+- **skitem 结构描述去掉 isatty 双通道**：scripts/ 定位从「终端直连 vs AI 调用」改为「agent 专用，无终端直连通道」
+- **脚本规范（SKILL.md + templates/skill-template.md）同步**：去除真人终端向导交互场景，脚本面向 AI 调用（--xxx 参数路径）
+- 版本 1.6.1 → 1.6.2
+
 ## 1.6.0 (2026-08-18)
 
 ### Changed（多 agent 化 + 更名）

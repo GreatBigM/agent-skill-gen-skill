@@ -1,7 +1,7 @@
 ---
 name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.6.1
+version: 1.6.2
 author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
@@ -47,7 +47,7 @@ AI:  加载本 skill → 收敛决策 → 按构成规范设计（概念分层/�
 ├── CHANGELOG.md      ← 发生过什么（版本历史，随安装拷贝）
 ├── templates/        ← 生成骨架（准入标准 = 可替换性：可替换的参考实现；不可替换的约定内容不放这里）；新 skill 骨架蓝图见 `templates/skill-template.md`
 ├── references/       ← 参考层：坑（遇问题排障）+ 决策原因（为什么这样）+ 接入参考——SKILL.md 保持干净主流程，坑/决策不占主文档（A 模式）
-├── scripts/          ← 可执行脚本（isatty 双通道：终端直连 vs AI 调用）
+├── scripts/          ← 可执行脚本（agent 专用，无终端直连通道）
 └── assets/           ← 资源（可选）
 ```
 
@@ -98,10 +98,10 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 
 ### 脚本规范
 
-- **isatty 双通道**：真实终端 → 向导交互；非 TTY（AI/管道）→ 提示参数路径退出，不傻等 stdin
-- 向导先收集后写盘、取消零副作用；`_ask(prompt, default, validator, hint)` 帮助函数（回车默认/q 取消/校验重输）
+- **agent 专用，无终端交互通道**：脚本面向 AI 调用（`--xxx` 参数路径），不提供真人终端向导交互；调用方（AI）用 TTY 检测判定仍保留——非 TTY（AI/管道）提示参数路径退出，不傻等 stdin
+- 向导先收集后写盘、取消零副作用；`_ask(prompt, default, validator, hint)` 帮助函数（回车默认/q 取消/校验重输）——仅在 AI 需要交互采集入参时使用
 - agent 交互约定写入 SKILL.md：对话层问参数，`--xxx` 传入，不用管道喂 stdin
-- 测试双向：管道（非 TTY 降级）+ `script -qec` 分配 pty（向导全交互）
+- 测试：管道（非 TTY 降级）
 - 脚本必须被 SKILL.md 反引号引用（否则 skills install 漏装）
 
 ### install.sh 规范（对外分发）
