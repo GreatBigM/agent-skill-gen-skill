@@ -2,6 +2,11 @@
 
 本文件记录版本历史。版本号定义在 SKILL.md frontmatter 的 `version` 字段（单一真相源）。
 
+## 1.6.3 (2026-10-01)
+
+### Added（发现层约束）
+- **文件间约束 #11：发现层只有一层**——`<skills_dir>/<name>/SKILL.md` 是唯一被发现的形式；分类子目录（`<skills_dir>/<category>/<name>/`）在 **Claude Code 侧整棵子树不可见**（只扫一层），`category:` frontmatter 也不参与发现（Hermes 侧支持分类）。2026-09-30 实测：一次拍平 10 个死 skill、16 个恢复可发现。⇒ 需多 agent 共用的 skill 一律平铺在 skills 目录顶层
+
 ## 1.6.2 (2026-08-29)
 
 ### Changed（skill 归属于 agent，无终端直连通道）

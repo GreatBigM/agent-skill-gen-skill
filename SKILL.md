@@ -1,7 +1,7 @@
 ---
 name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.6.2
+version: 1.6.3
 author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
@@ -73,6 +73,7 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 8. **AI 使用哲学头节必填**：SKILL.md 顶部声明「用户指挥 AI，AI 替用户执行」+ 铁律 + AI 交互约定
 9. **references = 参考层（A 模式）**：坑 + 决策原因全量进 references，SKILL.md 不承载；调试笔记/单次分析不发布（项目特定、敏感重灾区）；references 引用要清理（保知识去链接）
 10. **description ≤ 100 字**：frontmatter description 一句话说清「这是什么 skill + 干什么用」（≤100 字，市场卡片展示规格 + 技能索引 57 字符截断后仍可读）；细节进正文/triggers，不进 description（2026-08-12 市场卡片规格沉淀）
+11. **发现层只有一层（2026-09-30 实测）**：`<skills_dir>/<name>/SKILL.md` 是唯一被发现的形式——把 skill 放进**分类子目录**（`<skills_dir>/<category>/<name>/SKILL.md`）时，**Claude Code 侧整棵子树不可见**（只扫一层），`category:` frontmatter 也不参与发现；Hermes 侧则支持分类目录。⇒ 需要多 agent 共用的 skill **一律平铺在 skills 目录顶层**；只为 Hermes 用的可以分类，但同步到其他 agent 前先看目标端有没有装成"死 skill"（实测一次拍平 10 个）。
 
 ## 生成流程
 
