@@ -73,6 +73,7 @@ agent-skill-gen-skill/
 ├── README.md                        ← 本文件
 ├── install.sh                       ← 一键安装脚本
 ├── SKILL.md                         ← 操作手册（触发条件/文件层级/生成流程，仓库根即 skill）
+├── scripts/                       ← 发布闸门（脱敏 + CHANGELOG 同步，**不随安装下发**）
 ├── CHANGELOG.md                     ← 版本历史
 └── templates/
     └── skill-template.md            ← 新 skill 生成蓝图（九节，含 SCHEMA 七节框架）
