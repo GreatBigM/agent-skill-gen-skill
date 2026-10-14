@@ -18,13 +18,19 @@ version_gt() { [ "$1" != "$2" ] && [ -n "$2" ] && [ "$(printf '%s\n%s\n' "$2" "$
 # ─── 参数解析 ──────────────────────────────────────────────────────
 TARGET_ARG=""
 ALL_FLAG=0
+WANT_TARGET=0
 for a in "$@"; do
+    if [ "$WANT_TARGET" -eq 1 ]; then TARGET_ARG="$a"; WANT_TARGET=0; continue; fi
     case "$a" in
         --target=*) TARGET_ARG="${a#*=}" ;;
-        --target) TARGET_ARG="" ;;  # 由下一参数接管（简化：仅支持 --target=a,b 形式）
+        --target) WANT_TARGET=1 ;;   # 空格形式：--target hermes,claude
         --all) ALL_FLAG=1 ;;
     esac
 done
+if [ "$WANT_TARGET" -eq 1 ]; then
+    echo "❌ --target 缺参数（用法：--target hermes,claude 或 --target=hermes,claude）" >&2
+    exit 1
+fi
 
 # ─── 目标探测：检测本机已安装的 agent ───────────────────────────────
 detect_targets() {
@@ -62,7 +68,11 @@ install_one() {
                 echo "    本地 v${old_v} 高于远端 v${new_v}（开发版，覆盖安装）"
             fi
         fi
-        local bak="${dest}.bak.$(date +%Y%m%d%H%M%S)"
+        # 备份必须落在 skills 扫描根之外：agent 按「含 SKILL.md 的目录」发现技能、不看目录名，
+        # 备份留在扫描根内会被当成第二个同名技能加载（重名歧义 → 静默跳过其一）
+        local bak_dir="${dest_dir%/skills}/skills-backup"
+        mkdir -p "${bak_dir}"
+        local bak="${bak_dir}/${SKILL_NAME}.bak.$(date +%Y%m%d%H%M%S)"
         echo "    备份旧版到 ${bak}"
         mv "${dest}" "${bak}"
     else
@@ -154,5 +164,5 @@ echo "   - Hermes: 新会话自动加载，当前会话 /reload-skills 生效"
 echo "   - Claude Code / Codex / ZCode / pi: 新会话自动加载"
 echo ""
 echo "快速开始：生成新 skill 前加载本技能，按构成规范设计文件层级与文件约束"
-echo "更新：重跑本脚本即升级（自动备份旧版到 .bak.<时间戳>）"
+echo "更新：重跑本脚本即升级（自动备份旧版到 <tool 根>/skills-backup/，扫描根之外）"
 echo "指定目标：bash install.sh --target hermes,claude,zcode,pi  或  --all"
