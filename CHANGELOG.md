@@ -1,4 +1,41 @@
 # Changelog
+
+## 1.6.6 (2026-10-15)
+
+### Fixed（本仓自洽：README ↔ SKILL.md ↔ CHANGELOG）
+
+- **README 手动复制清单漏拷 `CHANGELOG.md`**：install.sh 的 `COPY_DIRS` 覆盖 SKILL.md + CHANGELOG.md + templates/，手动路径却只拷后两样 ⇒ 两套装法产出不同产物；复制清单补齐（含 pi 目标注释）。
+- **README 声称「支持文件清单在 SKILL.md 末尾」而 SKILL.md 无该段**（文件间约束 #2 要求该段存在）：SKILL.md 在「## 相关」前补「## 支持文件清单」，列 `templates/skill-template.md` 与仓内闸门 `scripts/publish-check.py`（注明后者不随安装下发）；README 表述与之一致。
+- **install.sh 规范里的条件 append 条目描述比实现严**：原文「必须 if 不能 `[ ] &&`」与本仓 install.sh 自身几处写法冲突 ⇒ 改为「作为整条命令最后一个单元时必须用 if；实测本仓中间位置的 `[ ] &&` 无害，但新写时一律用 if」。
+- **README 安装目标清单与 `--target` 示例漏 `pi`**（install.sh 早已支持 `~/.pi/agent`）：清单、示例、手动复制注释三处补齐。
+- **CHANGELOG 版本乱序**：1.6.1 段排在 1.0.0 之后（末位），按日期上移到 1.6.2 与 1.6.0 之间。
+- **1.6.5 条目自身触发本版闸门**：三个洞的举例里写了真实项目代号（大小写那档），与「别把真名写进 CHANGELOG」直接冲突 ⇒ 改写为不含真名的等价表述（事实不删）。
+- 版本 1.6.5 → 1.6.6
+
+## 1.6.5 (2026-10-15)
+
+### Fixed
+- **发布闸门 publish-check.py 三个洞同批修**（脱敏反复回潮的根因之一：闸门对真实标识零防护却一直报「干净」）：
+  ① 代号正则大小写不敏感（旧版只认小写，同一代号的大写写法整体漏）；
+  ② 白名单改为**按匹配项豁免**（旧版 `if any(a in line for a in ALLOW): continue` 是整行豁免——一行里出现
+  `<项目A>` 就给同行的真名背书；且原 7 个词对 12 条 pattern 全部零命中 = 纯死豁免）；
+  ③ 词边界改用显式字符类（`\b` 在 str 模式下 `\w` 含汉字 ⇒「项目<项目A>」这类中文常见写法漏检，
+  加不加空格决定报不报）。另补 PRJ0## / 裸数字代号 / MAC 连字符 / 凭据变体（`token=`、`Bearer`、中文密码赋值）/
+  邮箱 六类形态。
+- **`--self-test` 样本按已知缺陷类别扩容**（原 15 条只覆盖「正常裸值」一档，上述六类一条样本都没有）；
+  自检与扫描共用同一份判定口径（`line_hits`），不再各写一套造成假绿。
+- **`scripts/hooks/pre-push` 在推送路径上先跑 `--self-test`**（规则表被改坏时不得静默通过）；
+  CHANGELOG 名单统一为超集（SKILL / SCHEMA / install.sh / templates / references / scripts，9 仓文本自此一致）；
+  基点改为 `origin/main → gitee/main → 根提交` 三级回落（旧版无 `origin/main` 时回落到 `HEAD~1`，
+  多笔提交一起推会只看最后一笔）。
+- **新增本机私用名单 `scripts/publish-deny.local`**（gitignore、不进仓）：人名 / 昵称 / 厂商 SDK 名 /
+  内部 skill 名这类**无法正则枚举、也不该写进发布仓**的标识，在本机未跟踪文件里逐行列真名，闸门自动一并扫。
+
+### 说明
+- 口径全文见 `scripts/publish-check.py` 文件头（已知边界：长 hash 折行、全角句点 IP 不识别；该文件自身在
+  `SKIP_FILES` 内，改它时需人工核对）。9 仓共用同一份闸门（md5 一致）——改一处必须批量同步。
+- 版本 1.6.4 → 1.6.5
+
 ## 1.6.4 (2026-10-14)
 
 ### Fixed（install.sh 两处 + 发布闸门，与 qwiki-skill 同款）
@@ -22,6 +59,13 @@
 - **skitem 结构描述去掉 isatty 双通道**：scripts/ 定位从「终端直连 vs AI 调用」改为「agent 专用，无终端直连通道」
 - **脚本规范（SKILL.md + templates/skill-template.md）同步**：去除真人终端向导交互场景，脚本面向 AI 调用（--xxx 参数路径）
 - 版本 1.6.1 → 1.6.2
+
+## 1.6.1 (2026-08-28)
+
+### Added
+
+- install.sh 新增 pi 安装目标（探测 `~/.pi/agent` → 安装到 `~/.pi/agent/skills/<skill>`，pi 自动发现）
+- 版本 1.6.0 → 1.6.1
 
 ## 1.6.0 (2026-08-18)
 
@@ -54,10 +98,3 @@
 
 ### Added
 - 初始创建（内部使用，构成规范逐步成型）
-
-## 1.6.1 (2026-08-28)
-
-### Added
-
-- install.sh 新增 pi 安装目标（探测 `~/.pi/agent` → 安装到 `~/.pi/agent/skills/<skill>`，pi 自动发现）
-- 版本 1.6.0 → 1.6.1

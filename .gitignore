@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .bak.*
+
+# 本机私用脱敏名单（真名不入仓）
+scripts/publish-deny.local

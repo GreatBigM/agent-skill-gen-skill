@@ -1,7 +1,7 @@
 ---
 name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.6.4
+version: 1.6.6
 author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
@@ -109,10 +109,15 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 
 - **版本化三件套**：version 单一真相源 + CHANGELOG.md（随安装拷贝）+ 安装/更新一体（对比版本输出 升级/最新/覆盖 三提示 + 旧版 mv 为 .bak.时间戳）
 - **get_version 必须 `|| true` 容错**：旧版无 version 字段时 `grep -m1 '^version:'` 非零，set -e 下整个脚本静默退出（2026-08-01 三仓踩坑）
-- **set -e 下条件 append 必须 if 不能 `[ ] &&`**：短路返回非零直接退出
+- **set -e 下条件 append 用 if 不用 `[ ] &&`**：`[ ] && cmd` 作为整条命令最后一个单元时短路返回非零直接退出；实测本仓 install.sh 里几处 `[ ] &&` 站在中间无害，但新写时一律用 if
 - 多技能 `SKILLS=(...)` 数组 + 单技能参数：`curl ... | bash -s -- <skill>`（`-s` 会被 bash 当选项吃掉，管道才是对的）
 - 安装源 gitee 主推 + GitHub 镜像；gitee 推送必须 SSH（HTTPS 无凭证 fatal）
 - 隔离 HOME 实测：安装 + 幂等备份 + `<agent> skills list` 识别 + 版本升级路径（造旧版模拟）
+
+## 支持文件清单
+
+- `templates/skill-template.md` — 新 skill 生成蓝图（九节，含 SCHEMA 七节框架；随安装下发）
+- `scripts/publish-check.py` — 发布前脱敏闸门（仓内工具，**不随安装下发**；配套钩子 `scripts/hooks/pre-push`）
 
 ## 相关
 

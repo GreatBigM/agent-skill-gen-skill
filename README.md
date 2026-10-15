@@ -6,14 +6,14 @@ Agent 技能生成构成规范（skill）—— 新 skill 的三件事分层、�
 
 ## 安装
 
-本 skill 支持多 agent 目标：Hermes / Claude Code / Codex / ZCode。安装脚本自动探测本机已安装的 agent，让用户选择安装目标。
+本 skill 支持多 agent 目标：Hermes / Claude Code / Codex / ZCode / pi。安装脚本自动探测本机已安装的 agent，让用户选择安装目标。
 
 ```bash
 # 方式 1：交互选择安装目标（推荐，先下载再执行以保留交互）
 curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
 
 # 方式 2：指定目标（非交互，含 ZCode）
-curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude,zcode
+curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude,zcode,pi
 
 # 方式 3：安装到全部检测到的 agent
 curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --all
@@ -33,11 +33,11 @@ curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh
 # 1. 克隆本仓库
 git clone https://gitee.com/GreatBigM/agent-skill-gen-skill.git
 
-# 2. 复制到对应 agent 的 skills 目录（不经过安全扫描）
+# 2. 复制到对应 agent 的 skills 目录（不经过安全扫描）——SKILL.md + CHANGELOG.md + templates/ 三样都要拷
 mkdir -p ~/.hermes/skills/agent-skill-gen
-cp agent-skill-gen-skill/SKILL.md ~/.hermes/skills/agent-skill-gen/
+cp agent-skill-gen-skill/SKILL.md agent-skill-gen-skill/CHANGELOG.md ~/.hermes/skills/agent-skill-gen/
 cp -r agent-skill-gen-skill/templates ~/.hermes/skills/agent-skill-gen/
-# ZCode: cp -r 到 ~/.zcode/skills/agent-skill-gen/
+# ZCode / pi: 同上换目标 ~/.zcode/skills/agent-skill-gen/ 或 ~/.pi/agent/skills/agent-skill-gen/
 
 # 3. 会话内 /reload-skills，或新开会话自动加载
 ```
