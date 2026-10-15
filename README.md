@@ -12,7 +12,7 @@ Agent 技能生成构成规范（skill）—— 新 skill 的三件事分层、�
 # 方式 1：交互选择安装目标（推荐，先下载再执行以保留交互）
 curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh
 
-# 方式 2：指定目标（非交互，含 ZCode）
+# 方式 2：指定目标（非交互，含 ZCode / pi）
 curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh | bash -s -- --target hermes,claude,zcode,pi
 
 # 方式 3：安装到全部检测到的 agent
@@ -21,7 +21,7 @@ curl -fsSL https://gitee.com/GreatBigM/agent-skill-gen-skill/raw/main/install.sh
 
 > 脚本等价于手动复制（clone + cp），不经过安全扫描，可先审阅脚本内容再执行。
 > 已安装时自动备份旧版本到 `<tool 根>/skills-backup/<skill>.bak.<时间戳>`（**扫描根之外**——备份留在 skills/ 内会被当成第二个同名技能加载），重跑即升级（含版本对比提示）。
-> 推送前有闸门（`scripts/publish-check.py` 脱敏 + CHANGELOG 同步）：`git config core.hooksPath scripts/hooks` 启用一次即可。
+> 推送前有闸门（脱敏 = `scripts/publish-check.py`；CHANGELOG 同步 = `scripts/hooks/pre-push`）：`git config core.hooksPath scripts/hooks` 启用一次即可。
 
 ## 安装（备选：手动复制）
 

@@ -1,7 +1,7 @@
 ---
 name: agent-skill-gen
 description: 新 skill 生成构成规范：文件层级、构成约束、打包整理，生成新技能前必读。
-version: 1.6.6
+version: 1.6.7
 author: GreatBigM
 license: MIT
 category: autonomous-ai-agents
@@ -43,7 +43,7 @@ AI:  加载本 skill → 收敛决策 → 按构成规范设计（概念分层/�
 ```
 <skill>/
 ├── SKILL.md          ← 怎么做（操作流程）——唯一必需，唯一入口
-├── SCHEMA.md         ← 做成什么样（可选）：与 SKILL.md 概念平级的宪法/蓝图——物理并列，init 时实例化到被管理资产
+├── SCHEMA.md         ← 做成什么样（可选）：与 SKILL.md 概念平级的宪法/蓝图——物理并列，唯一真相源随 skill 分发，资产内不放置实例
 ├── CHANGELOG.md      ← 发生过什么（版本历史，随安装拷贝）
 ├── templates/        ← 生成骨架（准入标准 = 可替换性：可替换的参考实现；不可替换的约定内容不放这里）；新 skill 骨架蓝图见 `templates/skill-template.md`
 ├── references/       ← 参考层：坑（遇问题排障）+ 决策原因（为什么这样）+ 接入参考——SKILL.md 保持干净主流程，坑/决策不占主文档（A 模式）
@@ -78,7 +78,7 @@ SKILL.md 只承载主流程（怎么做），保持干净——坑与决策原�
 ## 生成流程
 
 1. **收敛决策**：量化重叠（`wc -l */SKILL.md` + `grep -c <核心命令>`），子集技能合并/删除（能合并不新建；删 A 前提取其独有知识章节并入主技能，frontmatter triggers 合并）
-2. **定义三件事**：怎么做（SKILL.md）+ 做成什么样（放被管理资产，skill 侧 init 快照放根目录平级）+ 发生过什么（CHANGELOG）
+2. **定义三件事**：怎么做（SKILL.md）+ 做成什么样（SCHEMA.md，skill 根目录与 SKILL.md 平级）+ 发生过什么（CHANGELOG）
 3. **命名**：name 动词-名词，查占用
 4. **模板**：init 类（进 init 流程）+ 生成类（产内容）
 5. **references**：只放必要深度参考，标清定位（使用参考 vs 下级接入参考）
